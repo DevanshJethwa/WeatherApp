@@ -8,8 +8,55 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer,toast } from "react-toastify";
 // import { Toast } from "react-toastify/dist/components";
 
-function Home(props) {
+import PartlyCloudyDay from "../Assets/icons/partly-cloudy-day.png";
+import PartlyCloudyNight from "../Assets/icons/partly-cloudy-night.png";
+import RainSnowShowerDay from "../Assets/icons/rain-snow-showers-day.png";
+import RainSnowShowerNight from "../Assets/icons/rain-snow-showers-night.png";
+import RainSnow from "../Assets/icons/rain-snow.png";
+import Rain from "../Assets/icons/rain.png";
+import ShowersDay from "../Assets/icons/showers-day.png";
+import ShowersNight from "../Assets/icons/showers-night.png";
+import Sleet from "../Assets/icons/sleet.png";
+import SnowShowersDay from "../Assets/icons/snow-showers-day.png";
+import SnowShowersNight from "../Assets/icons/snow-showers-night.png";
+import Snow from "../Assets/icons/snow.png";
+import ThunderRain from "../Assets/icons/thunder-rain.png";
+import ThunderShowersDay from "../Assets/icons/thunder-showers-day.png";
+import ThunderShowersNight from "../Assets/icons/thunder-showers-night.png";
+import Thunder from "../Assets/icons/thunder.png";
+import Wind from "../Assets/icons/wind.png";
+import ClearDay from "../Assets/icons/clear-day.png";
+import ClearNight from "../Assets/icons/clear-night.png";
+import Cloudy from "../Assets/icons/cloudy.png";
+import Fog from "../Assets/icons/fog.png";
+import Hail from "../Assets/icons/hail.png";
 
+
+function Home(props) {
+  const icons = {
+    "partly-cloudy-day":PartlyCloudyDay,
+    "partly-cloudy-night":PartlyCloudyNight,
+    "rain-snow-showers-day":RainSnowShowerDay,
+    "rain-snow-showers-night":RainSnowShowerNight,
+    "rain-snow":RainSnow,
+    "rain":Rain,
+    "showers-day":ShowersDay,
+    "showers-night":ShowersNight,
+    "sleet":Sleet,
+    "snow-showers-day":SnowShowersDay,
+    "snow-showers-night":SnowShowersNight,
+    "snow":Snow,
+    "thunder-rain":ThunderRain,
+    "thunder-showers-day":ThunderShowersDay,
+    "thunder-showers-night":ThunderShowersNight,
+    "thunder":Thunder,
+    "wind":Wind,
+    "clear-day":ClearDay,
+    "clear-night":ClearNight,
+    "cloudy":Cloudy,
+    "fog":Fog,
+    "hail":Hail,
+  }
     const [progress, setProgress] = useState(0)
     const [weather,updateWeather] = useState()
     const [city,updateCity] = useState()
@@ -34,7 +81,7 @@ function Home(props) {
       if (data.status === 200) {
           const parsedData = await data.json()
           setProgress(80)
-          console.log(parsedData);
+          //console.log(parsedData);
           updateWeather(parsedData)
           toast.success("Data Found Successfully...")
           updateView("temp")
@@ -93,7 +140,7 @@ function Home(props) {
           <div className="d-flex mt-md-0 mt-4 ">
           
             <div className="me-3 my-2">
-            <img src={`icons/${weather.currentConditions.icon}.png`} alt=''/>
+            <img src={icons[weather.currentConditions.icon]} alt=''/>
             </div>
             <div>
               <h3>{weather.currentConditions.conditions}</h3>
@@ -136,18 +183,18 @@ function Home(props) {
             </div>
 
             <div className="d-flex gap-3 justify-content-start   pb-2" style={{overflowX:"auto"}}>
-                {weather.days[0].hours.map((element)=>{
-                    return <Hourly hoursData={element} view={view}/>
+                {weather.days[0].hours.map((element,key)=>{
+                    return <Hourly icon={icons}  hoursData={element} view={view}/>
                 })}
             </div>
 
           <h3 className="mt-3">Weekly Forecast</h3>
           <div className="d-flex gap-3 justify-content-start  overflow-x-auto pb-2" >
 
-              {weather.days.map((element,index)=>{
+              {weather.days.map((element,index,key)=>{
                   if(index<=6){
 
-                    return <Weekly weekData={element}/>
+                    return <Weekly  weekData={element}/>
                   }
                   else{
                     return ""
